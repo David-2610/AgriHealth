@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, User, LogOut, FileText } from "lucide-react";
+import { Menu, X, User, LogOut, FileText, Bot, Leaf, BarChart3, ChevronDown } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import {
   DropdownMenu,
@@ -24,7 +24,13 @@ const Navbar = () => {
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Soil Report", path: "/soil-report" },
+    { name: "Weather", path: "/weather" },
     { name: "Contact", path: "/contact" },
+  ];
+
+  const aiToolLinks = [
+    { name: "AI Chatbot", path: "/chatbot", icon: Bot },
+    { name: "Crop Disease Detection", path: "/crop-disease", icon: Leaf },
   ];
 
   const toggleMenu = () => {
@@ -59,7 +65,7 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-6">
+        <div className="hidden md:flex items-center space-x-4">
           {navLinks.map((link) => (
             <Link
               key={link.path}
@@ -73,6 +79,28 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
+
+          {/* AI Tools Dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                className={`flex items-center gap-1 text-white hover:text-agrihealth-cream transition-colors ${
+                  ["/chatbot", "/crop-disease"].includes(location.pathname)
+                    ? "font-bold border-b-2 border-white"
+                    : ""
+                }`}
+              >
+                AI Tools <ChevronDown className="h-3.5 w-3.5" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {aiToolLinks.map((link) => (
+                <DropdownMenuItem key={link.path} onClick={() => navigate(link.path)}>
+                  <link.icon className="mr-2 h-4 w-4" /> {link.name}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
           
           {user ? (
             <DropdownMenu>
@@ -85,6 +113,9 @@ const Navbar = () => {
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => navigate("/dashboard")}>
+                  <BarChart3 className="mr-2 h-4 w-4" /> Dashboard
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => navigate("/account")}>
                   <FileText className="mr-2 h-4 w-4" /> My Soil Reports
                 </DropdownMenuItem>
@@ -129,16 +160,39 @@ const Navbar = () => {
                 {link.name}
               </Link>
             ))}
+
+            <div className="border-t border-agrihealth-green-light pt-2">
+              <p className="text-agrihealth-cream text-xs uppercase tracking-wide mb-2">AI Tools</p>
+              {aiToolLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className="text-white hover:text-agrihealth-cream transition-colors block py-1"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </div>
             
             {user ? (
               <>
-                <Link 
-                  to="/account" 
-                  className="text-white hover:text-agrihealth-cream transition-colors"
-                  onClick={() => setIsOpen(false)}
-                >
-                  My Soil Reports
-                </Link>
+                <div className="border-t border-agrihealth-green-light pt-2">
+                  <Link 
+                    to="/dashboard" 
+                    className="text-white hover:text-agrihealth-cream transition-colors block py-1"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Dashboard
+                  </Link>
+                  <Link 
+                    to="/account" 
+                    className="text-white hover:text-agrihealth-cream transition-colors block py-1"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    My Soil Reports
+                  </Link>
+                </div>
                 <Button 
                   variant="outline" 
                   className="bg-white text-agrihealth-green hover:bg-agrihealth-cream"

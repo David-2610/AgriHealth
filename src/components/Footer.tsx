@@ -18,8 +18,10 @@ const Footer = () => {
             <ul className="space-y-2">
               <li><Link to="/" className="text-sm hover:underline">Home</Link></li>
               <li><Link to="/soil-report" className="text-sm hover:underline">Soil Report</Link></li>
+              <li><Link to="/chatbot" className="text-sm hover:underline">AI Chatbot</Link></li>
+              <li><Link to="/crop-disease" className="text-sm hover:underline">Crop Disease Detection</Link></li>
+              <li><Link to="/weather" className="text-sm hover:underline">Weather</Link></li>
               <li><Link to="/contact" className="text-sm hover:underline">Contact Us</Link></li>
-              <li><Link to="/login" className="text-sm hover:underline">Login</Link></li>
             </ul>
           </div>
           <div>
